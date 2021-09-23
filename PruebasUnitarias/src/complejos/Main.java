@@ -7,5 +7,7 @@ public class Main {
         Sumador s = new Sumador();
 
         System.out.println(s.add(3,4));
+
+        System.out.println("Prueba");
     }
 }

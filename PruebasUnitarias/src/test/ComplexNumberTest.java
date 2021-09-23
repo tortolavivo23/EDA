@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import complejos.ComplexNumber;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ComplexNumberTest {
 
@@ -18,6 +18,8 @@ class ComplexNumberTest {
 
     @AfterEach
     void tearDown() {
+
+    }
 
 
     @Test
