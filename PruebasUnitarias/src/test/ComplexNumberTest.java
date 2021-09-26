@@ -1,11 +1,10 @@
 package test;
 
-import org.junit.Assert;
+import complejos.ComplexNumber;
+
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import complejos.ComplexNumber;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -55,13 +54,13 @@ class ComplexNumberTest {
     @Test
     void division() {
         ComplexNumber c = new ComplexNumber(13, 1);
-        Assert.assertEquals("Dividir",new ComplexNumber(1,4), c.division(new ComplexNumber(1,-3)));
+        assertEquals(new ComplexNumber(1,4), c.division(new ComplexNumber(1,-3)), "division");
     }
 
     @Test
     void conjugate() {
         ComplexNumber c = new ComplexNumber(8, -2);
-        Assert.assertEquals("Conjugado",new ComplexNumber(8,2), c.conjugate());
+        assertEquals(new ComplexNumber(8,2), c.conjugate(), "Conjugado");
     }
 
     @Test
