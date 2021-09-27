@@ -9,19 +9,40 @@
  * @author mayte
  */
 public class FloatLinkedList implements FloatList{
-    float cabeza;
+    private class Node{
+        Node next;
+        float element;
+
+        public Node(float e){
+            element = e;
+        }
+        public Node(Node n, float e){
+            next=n;
+            element = e;
+        }
+
+        public Node getNext() {
+            return next;
+        }
+
+        public void setNext(Node next) {
+            this.next = next;
+        }
+
+        public float getElement() {
+            return element;
+        }
+
+        public void setElement(float element) {
+            this.element = element;
+        }
+    }
+    Node head;
     int size;
-    FloatLinkedList cola;
 
     public FloatLinkedList(){
         size=0;
     }
-    private FloatLinkedList(FloatLinkedList list){
-        cabeza=list.cabeza;
-        size=list.size;
-        cola = list.cola;
-    }
-
 
     @Override
     public int size() {
@@ -35,69 +56,72 @@ public class FloatLinkedList implements FloatList{
 
     @Override
     public void add(Float value) {
-        this.cola= new FloatLinkedList(this);
-        this.cabeza = value;
+        head = new Node(head, value);
         size++;
     }
 
     @Override
     public void add(int index, Float value) {
-        FloatLinkedList list = this;
-        for(int i=1; i<=index; i++){
-            list = list.cola;
+        if (index == 1) {
+            add(value);
+        } else {
+            Node node = this.head;
+            for (int i = 1; i < index; i++) {
+                node = node.getNext();
+            }
+            node.setNext(new Node(node.next, value));
+            size++;
         }
-        list.cola = new FloatLinkedList(list);
-        list.cabeza = value;
-        size++;
     }
 
     @Override
     public Float remove() {
-        FloatLinkedList list = this.cola;
-        Float out = cabeza;
-        cabeza = list.cabeza;
-        cola = list.cola;
+        float out = head.getElement();
+        head = head.getNext();
         size--;
         return out;
     }
 
     @Override
     public Float remove(int index) {
-        FloatLinkedList list = this;
-        for(int i=1; i<index; i++){
-            list= list.cola;
+        if(index==1){
+            return remove();
         }
-        FloatLinkedList list1 = list.cola;
-        Float out = list.cabeza;
-        list.cabeza = list1.cabeza;
-        list.cola = list1.cola;
-        size--;
-        return out;
+        else{
+            Node node = this.head;
+            for(int i=1; i<index-1; i++){
+                node = node.getNext();
+            }
+            Float out = node.getNext().getElement();
+            node.setNext(node.getNext().getNext());
+            size--;
+            return out;
+        }
     }
 
     @Override
     public Float get() {
-        return cabeza;
+        return head.getElement();
     }
 
     @Override
     public Float get(int index) {
-        FloatLinkedList list = this;
+        Node node = head;
         for(int i=1; i<index; i++){
-            list = list.cola;
+            node = node.getNext();
         }
-        return list.cabeza;
+        return node.getElement();
     }
 
     @Override
     public int search(Float value) {
-        FloatLinkedList list = this;
+        Node node = head;
         for (int i=1; i<=size; i++){
-            if (list.cabeza==value){
+            if (node.getElement()==value){
                 return i;
             }
             else{
-                list = list.cola;
+                node = node.getNext();
             }
         }
         return 0;
@@ -105,16 +129,7 @@ public class FloatLinkedList implements FloatList{
 
     @Override
     public boolean contains(Float value) {
-        FloatLinkedList list = this;
-        for (int i=1; i<=size; i++){
-            if (list.cabeza==value){
-                return true;
-            }
-            else{
-                list = list.cola;
-            }
-        }
-        return false;
+        return search(value)>0;
     }
     
 }
