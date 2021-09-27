@@ -1,7 +1,9 @@
 
 package ejercicio3;
+
+import material.*;
+
 import java.util.Iterator;
-import material.Position;
 
 /**
  *
@@ -15,23 +17,23 @@ public interface MyListBetter<E> extends Iterable<Position<E>>{
      * 
      * @return 
      */
-    public int size();
+    int size();
     
     /**
      * Returns true if this list contains no elements
      * 
      * @return 
      */
-    public boolean isempty();
-   
+    boolean isempty();
+
     /**
-     * Appends the specified element to the begining of this list 
-     * 
-     * @param value 
-     * @return  
+     * Appends the specified element to the begining of this list
+     *
+     * @param value
+     * @return
      */
-    public Position<E> add(E value);
-    
+    Position<E> add(E value);
+
     /**
      * Inserts the specified element after the specified position in this list (optional operation)
      * 
@@ -39,7 +41,7 @@ public interface MyListBetter<E> extends Iterable<Position<E>>{
      * @param value 
      * @return  
      */
-    public Position<E> addAfter(Position<E> pos, E value);
+    Position<E> addAfter(Position<E> pos, E value);
     
     /**
      * Inserts the specified element before the specified position in this list (optional operation)
@@ -48,7 +50,7 @@ public interface MyListBetter<E> extends Iterable<Position<E>>{
      * @param value 
      * @return  
      */
-    public Position<E> addBefore(Position<E> pos, E value);
+    Position<E> addBefore(Position<E> pos, E value);
     
     /**
      * Remove and returns the element at the beginning of this list
@@ -56,15 +58,15 @@ public interface MyListBetter<E> extends Iterable<Position<E>>{
      * @param pos
      * @return 
      */
-    public E remove(Position<E> pos);
-    
-        
+    E remove(Position<E> pos);
+
+
     /**
      * Returns the element at the beginning of this list
      * 
      * @return 
      */
-    public Position<E> get();
+    Position<E> get();
     
     /**
      * Modifies the element at the specified position in this list
@@ -73,7 +75,7 @@ public interface MyListBetter<E> extends Iterable<Position<E>>{
      * @param value
      * @return 
      */
-    public Position<E> set(Position<E> pos, E value);
+    Position<E> set(Position<E> pos, E value);
     
     /**
      * Returns the element's Position if this list contains the specified element
@@ -82,7 +84,7 @@ public interface MyListBetter<E> extends Iterable<Position<E>>{
      * @param value
      * @return 
      */
-    public Position<E> search(E value);
+    Position<E> search(E value);
     
     /**
      * Returns true if this list contains the specified element.
@@ -90,7 +92,7 @@ public interface MyListBetter<E> extends Iterable<Position<E>>{
      * @param value
      * @return 
      */
-    public boolean contains (E value);
+    boolean contains(E value);
     
     /**
      * Returns an iterator of the elements
@@ -98,5 +100,5 @@ public interface MyListBetter<E> extends Iterable<Position<E>>{
      * @return 
      */
     @Override
-    public Iterator<Position<E>> iterator();
+    Iterator<Position<E>> iterator();
 }
