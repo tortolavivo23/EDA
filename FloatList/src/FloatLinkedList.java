@@ -43,9 +43,7 @@ public class FloatLinkedList implements FloatList{
     public FloatLinkedList(){
         size=0;
     }
-
-
-
+  
     @Override
     public int size() {
         return size;
@@ -89,6 +87,7 @@ public class FloatLinkedList implements FloatList{
     public Float remove(int index) {
         if(index==1){
             return remove();
+
         }
         else{
             Node node = this.head;
@@ -100,7 +99,6 @@ public class FloatLinkedList implements FloatList{
             size--;
             return out;
         }
-
     }
 
     @Override
@@ -121,8 +119,9 @@ public class FloatLinkedList implements FloatList{
     public int search(Float value) {
         Node node = head;
         for (int i=1; i<=size; i++){
+
             if (node.getElement() ==value){
-                return i;
+              return i;
             }
             else{
                 node = node.getNext();
