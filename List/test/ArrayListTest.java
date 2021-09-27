@@ -44,9 +44,8 @@ public class ArrayListTest {
     public void testIsempty1() {
         System.out.println("isempty");
         ArrayList<Float> instance = inicializa();
-        boolean expResult = false;
         boolean result = instance.isempty();
-        assertEquals(false, result);
+        assertFalse(result);
        
     }
 
@@ -57,10 +56,8 @@ public class ArrayListTest {
     public void testIsempty2() {
         System.out.println("isempty");
         ArrayList<Float> instance = new ArrayList(2);
-        boolean expResult = true;
         boolean result = instance.isempty();
-        assertEquals(expResult, result);
-       
+        assertTrue(result);
     }
     
     /**
@@ -69,7 +66,6 @@ public class ArrayListTest {
     @Test
     public void testAdd_Float() {
         System.out.println("add");
-        Float value = null;
         ArrayList<Float> instance = new ArrayList(3);
         assertTrue(instance.isempty());
         instance.add(2F);
