@@ -5,7 +5,7 @@ import material.Position;
 
 import java.util.Iterator;
 
-public class LinkedPositionList<E> implements MyListBetter{
+public class LinkedPositionList<E> implements MyListBetter<E>{
     private Position<E> head;
     private int size;
 
@@ -22,9 +22,9 @@ public class LinkedPositionList<E> implements MyListBetter{
     }
 
     @Override
-    public Position<E> add(Object value) {
+    public Position<E> add(E value) {
         DLinkedNode<E> nextNode = (DLinkedNode<E>)head;
-        DLinkedNode<E> newNode = new DLinkedNode<E>(nextNode, null, (E)value);
+        DLinkedNode<E> newNode = new DLinkedNode<E>(nextNode, null, value);
         head= newNode;
         if(nextNode!=null) {
             nextNode.setPrev(newNode);
@@ -39,11 +39,10 @@ public class LinkedPositionList<E> implements MyListBetter{
     }
 
     @Override
-    public Position<E> search(Object value) {
-        E v = (E)value;
+    public Position<E> search(E value) {
         DLinkedNode<E> node = (DLinkedNode<E>) head;
         while (node!=null){
-            if(node.getElement().equals(v)){
+            if(node.getElement().equals(value)){
                 return node;
             }
             else{
@@ -54,7 +53,7 @@ public class LinkedPositionList<E> implements MyListBetter{
     }
 
     @Override
-    public boolean contains(Object value) {
+    public boolean contains(E value) {
         return search(value)!=null;
     }
 
@@ -64,9 +63,9 @@ public class LinkedPositionList<E> implements MyListBetter{
     }
 
     @Override
-    public Position<E> set(Position pos, Object value) throws InvalidPositionException {
+    public Position<E> set(Position<E> pos, E value) throws InvalidPositionException {
         DLinkedNode<E> node = checkPosition(pos);
-        node.setElement((E)value);
+        node.setElement(value);
         return node;
     }
 
@@ -89,9 +88,9 @@ public class LinkedPositionList<E> implements MyListBetter{
     }
 
     @Override
-    public Position<E> addBefore(Position pos, Object value) throws InvalidPositionException {
+    public Position<E> addBefore(Position<E> pos, E value) throws InvalidPositionException {
         DLinkedNode<E> nextNode = checkPosition(pos);
-        DLinkedNode<E> newNode = new DLinkedNode<>(nextNode, nextNode.getPrev(), (E)value);
+        DLinkedNode<E> newNode = new DLinkedNode<>(nextNode, nextNode.getPrev(), value);
         if(nextNode == head){
             head = newNode;
         }
@@ -104,7 +103,7 @@ public class LinkedPositionList<E> implements MyListBetter{
     }
 
     @Override
-    public Position addAfter(Position pos, Object value) throws InvalidPositionException {
+    public Position<E> addAfter(Position<E> pos, E value) throws InvalidPositionException {
         DLinkedNode<E> prevNode = checkPosition(pos);
         DLinkedNode<E> newNode = new DLinkedNode<>(prevNode.getNext(), prevNode, (E)value);
         prevNode.setNext(newNode);

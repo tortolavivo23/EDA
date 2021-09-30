@@ -101,4 +101,5 @@ public interface MyListBetter<E> extends Iterable<Position<E>>{
      */
     @Override
     Iterator<Position<E>> iterator();
+
 }
