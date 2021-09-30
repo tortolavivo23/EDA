@@ -25,13 +25,11 @@ public class MyIterator<E> implements Iterator<E>{
 
     @Override
     public void remove() {
-        if(node.getPrev()!=null){
-            node.getPrev().setNext(node.getNext());
+        try {
+            list.remove(node);
+        } catch (InvalidPositionException e) {
+            e.printStackTrace();
         }
-        if(node.getNext()!=null){
-            node.getNext().setPrev(node.getPrev());
-        }
-        list.minusSize();
     }
 
 }

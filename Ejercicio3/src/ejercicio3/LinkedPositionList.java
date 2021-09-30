@@ -86,7 +86,7 @@ public class LinkedPositionList<E> implements MyListBetter<E>{
             prev.setNext(next);
         }
         if(next!=null) {
-            next.setPrev(null);
+            next.setPrev(node.getPrev());
         }
         size--;
         return node.getElement();
@@ -121,8 +121,5 @@ public class LinkedPositionList<E> implements MyListBetter<E>{
             throw new InvalidPositionException("The position is invalid");
         }
         return (DLinkedNode<E>) p;
-    }
-    protected void minusSize(){
-        size--;
     }
 }
