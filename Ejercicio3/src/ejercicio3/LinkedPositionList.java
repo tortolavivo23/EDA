@@ -58,8 +58,8 @@ public class LinkedPositionList<E> implements MyListBetter<E>{
     }
 
     @Override
-    public Iterator<Position<E>> iterator() {
-        return null;
+    public Iterator<E> iterator() {
+        return new MyIterator<E>((DLinkedNode<E>) head);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class LinkedPositionList<E> implements MyListBetter<E>{
         return newNode;
     }
 
-    private DLinkedNode<E> checkPosition(Position p) throws InvalidPositionException {
+    private DLinkedNode<E> checkPosition(Position<E> p) throws InvalidPositionException {
         if(p==null || !(p instanceof DLinkedNode)){
             throw new InvalidPositionException("The position is invalid");
         }

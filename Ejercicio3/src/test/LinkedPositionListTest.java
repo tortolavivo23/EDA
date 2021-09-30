@@ -6,6 +6,8 @@ import ejercicio3.MyListBetter;
 import material.DLinkedNode;
 import material.Position;
 
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LinkedPositionListTest{
@@ -76,6 +78,13 @@ class LinkedPositionListTest{
 
     @org.junit.jupiter.api.Test
     void iterator() {
+        MyListBetter<Double> list = inicializar();
+        Iterator<Double> it = list.iterator();
+        double comp = 0;
+        while (it.hasNext()){
+            comp = it.next();
+        }
+        assertEquals(3.2, comp);
     }
 
     @org.junit.jupiter.api.Test

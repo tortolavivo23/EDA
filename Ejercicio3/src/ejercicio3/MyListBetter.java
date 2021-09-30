@@ -11,7 +11,7 @@ import java.util.Iterator;
  * @param <E>
  */
 
-public interface MyListBetter<E> extends Iterable<Position<E>>{
+public interface MyListBetter<E> extends Iterable<E>{
     /**
      * Returns the number of elements in this list
      * 
@@ -100,6 +100,6 @@ public interface MyListBetter<E> extends Iterable<Position<E>>{
      * @return 
      */
     @Override
-    Iterator<Position<E>> iterator();
+    Iterator<E> iterator();
 
 }
