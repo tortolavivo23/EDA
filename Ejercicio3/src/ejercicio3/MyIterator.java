@@ -23,7 +23,12 @@ public class MyIterator<E> implements Iterator<E>{
 
     @Override
     public void remove() {
-        node = node.getNext();
+        if(node.getPrev()!=null){
+            node.getPrev().setNext(node.getNext());
+        }
+        if(node.getNext()!=null){
+            node.getNext().setPrev(node.getPrev());
+        }
     }
 
 }
