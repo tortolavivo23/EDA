@@ -26,7 +26,9 @@ public class LinkedPositionList<E> implements MyListBetter{
         DLinkedNode<E> nextNode = (DLinkedNode<E>)head;
         DLinkedNode<E> newNode = new DLinkedNode<E>(nextNode, null, (E)value);
         head= newNode;
-        nextNode.setPrev(newNode);
+        if(nextNode!=null) {
+            nextNode.setPrev(newNode);
+        }
         size++;
         return head;
     }
@@ -62,32 +64,33 @@ public class LinkedPositionList<E> implements MyListBetter{
     }
 
     @Override
-    public Position<E> set(Position pos, Object value) {
-        DLinkedNode<E> node = (DLinkedNode<E>) pos;
+    public Position<E> set(Position pos, Object value) throws InvalidPositionException {
+        DLinkedNode<E> node = checkPosition(pos);
         node.setElement((E)value);
         return node;
     }
 
     @Override
-    public E remove(Position pos) {
-        DLinkedNode<E>node = (DLinkedNode<E>) pos;
+    public E remove(Position pos) throws InvalidPositionException {
+        DLinkedNode<E>node = checkPosition(pos);
         DLinkedNode<E>next = node.getNext();
         if(node == head){
             head = next;
-            next.setPrev(null);
         }
         else{
             DLinkedNode<E>prev = node.getPrev();
             prev.setNext(next);
-            next.setPrev(prev);
+        }
+        if(next!=null) {
+            next.setPrev(null);
         }
         size--;
         return node.getElement();
     }
 
     @Override
-    public Position<E> addBefore(Position pos, Object value) {
-        DLinkedNode<E> nextNode = (DLinkedNode<E>) pos;
+    public Position<E> addBefore(Position pos, Object value) throws InvalidPositionException {
+        DLinkedNode<E> nextNode = checkPosition(pos);
         DLinkedNode<E> newNode = new DLinkedNode<>(nextNode, nextNode.getPrev(), (E)value);
         if(nextNode == head){
             head = newNode;
@@ -101,11 +104,19 @@ public class LinkedPositionList<E> implements MyListBetter{
     }
 
     @Override
-    public Position addAfter(Position pos, Object value) {
-        DLinkedNode<E> prevNode = (DLinkedNode<E>) pos;
+    public Position addAfter(Position pos, Object value) throws InvalidPositionException {
+        DLinkedNode<E> prevNode = checkPosition(pos);
         DLinkedNode<E> newNode = new DLinkedNode<>(prevNode.getNext(), prevNode, (E)value);
         prevNode.setNext(newNode);
         size++;
         return newNode;
+    }
+
+    private DLinkedNode<E> checkPosition(Position p) throws InvalidPositionException {
+        if(p==null || !(p instanceof DLinkedNode)){
+            throw new InvalidPositionException("The position is invalid");
+        }
+        return (DLinkedNode<E>) p;
+
     }
 }
