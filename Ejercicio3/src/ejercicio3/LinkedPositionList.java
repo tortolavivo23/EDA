@@ -59,7 +59,12 @@ public class LinkedPositionList<E> implements MyListBetter<E>{
 
     @Override
     public Iterator<E> iterator() {
-        return new MyIterator<E>((DLinkedNode<E>) head);
+        try {
+            return new MyIterator<E>(this);
+        } catch (InvalidPositionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -111,11 +116,13 @@ public class LinkedPositionList<E> implements MyListBetter<E>{
         return newNode;
     }
 
-    private DLinkedNode<E> checkPosition(Position<E> p) throws InvalidPositionException {
+    protected DLinkedNode<E> checkPosition(Position<E> p) throws InvalidPositionException {
         if(p==null || !(p instanceof DLinkedNode)){
             throw new InvalidPositionException("The position is invalid");
         }
         return (DLinkedNode<E>) p;
-
+    }
+    protected void minusSize(){
+        size--;
     }
 }

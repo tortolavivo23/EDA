@@ -4,9 +4,11 @@ import java.util.Iterator;
 
 public class MyIterator<E> implements Iterator<E>{
     private DLinkedNode<E> node;
+    private LinkedPositionList<E> list;
 
-    public MyIterator(DLinkedNode<E> node) {
-        this.node = node;
+    public MyIterator(LinkedPositionList<E> list) throws InvalidPositionException {
+        this.list = list;
+        this.node = list.checkPosition(list.get());
     }
 
     @Override
@@ -29,6 +31,7 @@ public class MyIterator<E> implements Iterator<E>{
         if(node.getNext()!=null){
             node.getNext().setPrev(node.getPrev());
         }
+        list.minusSize();
     }
 
 }
