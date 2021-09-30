@@ -2,7 +2,7 @@
  *
  * @author mayte
  */
-public class LinkedList<E> implements List {
+public class LinkedList<E> implements List<E> {
 
     private class Node<E>{
        
@@ -63,7 +63,7 @@ public class LinkedList<E> implements List {
     }
 
     @Override
-    public void add(Object value) {
+    public void add(E value) {
         Node aux = new Node(value, head);
         this.head = aux;
         this.size++;
@@ -71,7 +71,7 @@ public class LinkedList<E> implements List {
 
      
     @Override
-    public void add(int index, Object value) {
+    public void add(int index, E value) {
         Node ant = forward(index);
         if (ant == null)
             add(value);
@@ -120,7 +120,7 @@ public class LinkedList<E> implements List {
     }
 
     @Override
-    public int search(Object value) {
+    public int search(E value) {
         if (isempty())
             return 0;
         Node aux = head;
@@ -135,7 +135,7 @@ public class LinkedList<E> implements List {
     }
 
     @Override
-    public boolean contains(Object value) {
+    public boolean contains(E value) {
        return (search(value) != 0);
     }
     
