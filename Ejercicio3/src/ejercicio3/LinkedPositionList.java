@@ -17,7 +17,7 @@ public class LinkedPositionList<E> implements MyListBetter<E>{
     }
 
     @Override
-    public boolean isempty() {
+    public boolean isEmpty() {
         return size==0;
     }
 

@@ -24,7 +24,7 @@ public interface MyListBetter<E> extends Iterable<E>{
      * 
      * @return 
      */
-    boolean isempty();
+    boolean isEmpty();
 
     /**
      * Appends the specified element to the begining of this list
