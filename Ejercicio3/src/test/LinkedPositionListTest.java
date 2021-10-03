@@ -3,7 +3,6 @@ package test;
 import ejercicio3.InvalidPositionException;
 import ejercicio3.LinkedPositionList;
 import ejercicio3.MyListBetter;
-import material.DLinkedNode;
 import material.Position;
 
 import java.util.Iterator;
@@ -38,11 +37,11 @@ class LinkedPositionListTest{
     }
 
     @org.junit.jupiter.api.Test
-    void isempty() {
+    void isEmpty() {
         MyListBetter<Double> list = new LinkedPositionList<>();
-        assertTrue(list.isempty());
+        assertTrue(list.isEmpty());
         list.add(1.0);
-        assertFalse(list.isempty());
+        assertFalse(list.isEmpty());
     }
 
     @org.junit.jupiter.api.Test

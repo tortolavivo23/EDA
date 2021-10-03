@@ -32,11 +32,11 @@ public class LinkedList<E> implements List<E> {
              
     }
     
-    private Node forward(int index){
+    private Node<E> forward(int index){
         if ((index < 1) || (index > (size + 1)))
             throw new RuntimeException("The index is out of limits.");
-        Node ant = null;
-        Node act = head;
+        Node<E> ant = null;
+        Node<E> act = head;
         for (int i = 1; i < index; i++){
             ant = act;
             act = act.getNext();
