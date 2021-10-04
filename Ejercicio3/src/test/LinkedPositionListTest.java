@@ -1,6 +1,5 @@
 package test;
 
-import ejercicio3.InvalidPositionException;
 import ejercicio3.LinkedPositionList;
 import ejercicio3.MyListBetter;
 import material.Position;
@@ -87,7 +86,7 @@ class LinkedPositionListTest{
     }
 
     @org.junit.jupiter.api.Test
-    void set() throws InvalidPositionException {
+    void set() {
         MyListBetter<Double> list= inicializar();
         Position<Double> pos = list.get();
         list.set(pos, 5.0);
@@ -95,7 +94,7 @@ class LinkedPositionListTest{
     }
 
     @org.junit.jupiter.api.Test
-    void remove() throws InvalidPositionException {
+    void remove() {
         MyListBetter<Double> list = inicializar();
         Position<Double> pos = list.get();
         assertEquals(4.2, list.remove(pos));
@@ -107,7 +106,7 @@ class LinkedPositionListTest{
     }
 
     @org.junit.jupiter.api.Test
-    void addBefore() throws InvalidPositionException {
+    void addBefore() {
         MyListBetter<Double>list = inicializar(); //[4.2, 2.1, 3.2]
         Position<Double> p0 = list.get();
         Position<Double> p1 = list.add(3.1); //[3.1, 4.2, 2.1, 3.2]
@@ -119,7 +118,7 @@ class LinkedPositionListTest{
     }
 
     @org.junit.jupiter.api.Test
-    void addAfter() throws InvalidPositionException {
+    void addAfter() {
         MyListBetter<Double>list = inicializar(); //[4.2, 2.1, 3.2]
         Position<Double> p = list.get();
         list.addAfter(p, 6.9); //[4.2, 6.9, 2.1, 3.2]
