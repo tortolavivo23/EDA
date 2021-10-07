@@ -1,17 +1,15 @@
-
-
-
 import material.Position;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
  * @author mayte
  * @param <E>
  */
-public class LCRSTree<E> implements NAryTree<E> {
-
+public class LCRSTree<E> implements NAryTree<E>{
 
     private class LCRSnode<T> implements Position<T>{
         private T element;
@@ -22,18 +20,18 @@ public class LCRSTree<E> implements NAryTree<E> {
 
         @Override
         public T getElement() {
-            return null;
+            return element;
         }
 
         public void setElement(T element) {
             this.element = element;
         }
 
-        public LCRSnode<T> getLeft() {
+        public LCRSnode<T> getChild() {
             return child;
         }
 
-        public void setLeft(LCRSnode<T> left) {
+        public void setChild(LCRSnode<T> left) {
             this.child = left;
         }
 
@@ -55,26 +53,14 @@ public class LCRSTree<E> implements NAryTree<E> {
     }
 
 
+    private LCRSnode<E> root;
 
-
-
-    public LCRSTree<E>(){
-        size=0;
-    }
+    public LCRSTree() {root=null;}
 
 
     @Override
     public Position<E> addRoot(E e) {
-        if(this.isEmpty()){
-            root = new LCRSnode<>(e);
-        }
-        else{
-            try {
-                throw new Exception();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
+        root = new LCRSnode<>(e);
         return root;
     }
 
@@ -82,23 +68,26 @@ public class LCRSTree<E> implements NAryTree<E> {
     public Position<E> add(E element, Position<E> p) {
         LCRSnode<E> parent = null;
         try {
-            parent = checknode(p);
+            parent = checkPosition(p);
         } catch (InvalidPositionException e) {
             e.printStackTrace();
         }
-        LCRSnode<E> prev = parent.getLeft();
+        LCRSnode<E> prev = parent.getChild();
         LCRSnode<E> child = new LCRSnode<>(element);
         child.setParent(parent);
         if(prev==null){
-            parent.setLeft(child);
+            parent.setChild(child);
         }
         else{
-            while(prev.getNext()!=null){
+            int i = 0;
+            while (prev.getNext() != null) {
                 prev = prev.getNext();
+                i++;
             }
+            child.setNext(prev.getNext());
             prev.setNext(child);
+
         }
-        size++;
         return child;
     }
 
@@ -106,112 +95,221 @@ public class LCRSTree<E> implements NAryTree<E> {
     public Position<E> add(E element, Position<E> p, int n) {
         LCRSnode<E> parent = null;
         try {
-            parent = checknode(p);
+            parent = checkPosition(p);
         } catch (InvalidPositionException e) {
             e.printStackTrace();
         }
-        LCRSnode<E> prev = parent.getLeft();
+        LCRSnode<E> prev = parent.getChild();
         LCRSnode<E> child = new LCRSnode<>(element);
         child.setParent(parent);
         if(prev==null){
-            parent.setLeft(child);
+            parent.setChild(child);
         }
         else{
-            int i = 0;
-            while(prev.getNext()!=null&& i<n){
-                prev = prev.getNext();
-                i++;
+            if(n==0){
+                parent.setChild(child);
+                child.setNext(prev);
             }
-            child.setNext(prev.getNext());
-            prev.setNext(child);
+            else {
+                int i = 0;
+                while (prev.getNext() != null && i < n-1) {
+                    prev = prev.getNext();
+                    i++;
+                }
+                child.setNext(prev.getNext());
+                prev.setNext(child);
+            }
         }
-        size++;
         return child;
     }
 
     @Override
     public void swapElements(Position<E> p1, Position<E> p2) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        E value1 = p1.getElement();
+        E value2 = p2.getElement();
+        try {
+            LCRSnode<E> n1 = checkPosition(p1);
+            LCRSnode<E> n2 = checkPosition(p2);
+            n1.setElement(value2);
+            n2.setElement(value1);
+        } catch (InvalidPositionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public E replace(Position<E> p, E e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LCRSnode<E> n = null;
+        try {
+            n = checkPosition(p);
+        } catch (InvalidPositionException ex) {
+            ex.printStackTrace();
+        }
+        E element = n.getElement();
+        n.setElement(e);
+        return element;
     }
 
     @Override
     public void remove(Position<E> p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(isRoot(p)){
+            root=null;
+        }
+        else{
+            LCRSnode<E> node = null;
+            try {
+                node = checkPosition(p);
+            } catch (InvalidPositionException e) {
+                e.printStackTrace();
+            }
+            LCRSnode<E> parent = node.getParent();
+            LCRSnode<E> prev = parent.getChild();
+            if(prev.equals(node)){
+               parent.setChild(node.getNext());
+            }
+            else{
+                while (!prev.getNext().equals(node)){
+                    prev = prev.getNext();
+                }
+                prev.setNext(node.getNext());
+            }
+        }
     }
 
     @Override
     public NAryTree<E> subTree(Position<E> v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LCRSnode<E> node = null;
+        try {
+            node = checkPosition(v);
+        } catch (InvalidPositionException e) {
+            e.printStackTrace();
+        }
+        LCRSTree<E> tree = new LCRSTree<>();
+        if(isRoot(v)){
+            root=null;
+        }
+        else{
+            LCRSnode<E> parent = node.getParent();
+            LCRSnode<E> prev = parent.getChild();
+            if(prev.equals(node)){
+                parent.setChild(null);
+            }
+            else{
+                while (!prev.getNext().equals(node)){
+                    prev = prev.getNext();
+                }
+                prev.setNext(node.getNext());
+            }
+            node.setParent(null);
+        }
+        tree.root = node;
+        return tree;
     }
 
     @Override
     public void attach(Position<E> p, NAryTree<E> t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LCRSnode<E> parent = null;
+        try {
+            parent = checkPosition(p);
+        } catch (InvalidPositionException e) {
+            e.printStackTrace();
+        }
+        LCRSnode<E> node = null;
+        try {
+            node = checkPosition(t.root());
+        } catch (InvalidPositionException e) {
+            e.printStackTrace();
+        }
+        node.setNext(parent.getNext());
+        parent.setChild(node);
+        node.setParent(parent);
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return root==null;
     }
 
     @Override
     public Position<E> root() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return root;
     }
 
     @Override
     public Position<E> parent(Position<E> v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LCRSnode<E> node = null;
+        try {
+            node = checkPosition(v);
+        } catch (InvalidPositionException e) {
+            e.printStackTrace();
+        }
+        return node.getParent();
     }
 
     @Override
     public Iterable<? extends Position<E>> children(Position<E> v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LCRSnode<E> node = null;
+        try {
+            node = checkPosition(v);
+        } catch (InvalidPositionException e) {
+            e.printStackTrace();
+        }
+        LCRSnode<E> child = node.getChild();
+        List<Position<E>> list = new LinkedList<>();
+        while(child!=null){
+            list.add(child);
+            child=child.getNext();
+        }
+        return list;
     }
 
     @Override
     public boolean isInternal(Position<E> v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return !(isLeaf(v)||isRoot(v));
     }
 
     @Override
     public boolean isLeaf(Position<E> v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LCRSnode<E> node = null;
+        try {
+            node = checkPosition(v);
+        } catch (InvalidPositionException e) {
+            e.printStackTrace();
+        }
+        return node.getChild()==null;
     }
 
     @Override
     public boolean isRoot(Position<E> v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LCRSnode<E> node = null;
+        try {
+            node = checkPosition(v);
+        } catch (InvalidPositionException e) {
+            e.printStackTrace();
+        }
+        return node.equals(root);
     }
 
     @Override
     public Iterator<Position<E>> iterator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new PreOrderIterator<>(this);
     }
 
     public int size() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int size = 0;
+        for(Position<E> position: this){
+            size++;
+        }
+        return size;
     }
-    private LCRSnode<E> checknode(Position<E> p)throws InvalidPositionException{
+    private LCRSnode<E> checkPosition(Position<E> p)throws InvalidPositionException{
         if(p==null || !(p instanceof LCRSnode<E>)){
-            throw new InvalidPositionException("The position is invalid");
-        }
-
-        LCRSnode<E>n = (LCRSnode<E>) p;
-        while (n.getParent()!=null){
-            n = n.getParent();
-        }
-        if(n!=root){
             throw new InvalidPositionException("The position is invalid");
         }
         return (LCRSnode<E>) p;
     }
 
-    private LCRSnode<E> root;
-    private int size;
+
+
 }
+

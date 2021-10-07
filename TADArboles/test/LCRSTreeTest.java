@@ -1,12 +1,11 @@
+import junit.framework.TestCase;
 import material.Position;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
  * @author mayte
  */
-public class LCRSTreeTest {
+public class LCRSTreeTest extends TestCase {
     
     public LCRSTreeTest() {
     }
