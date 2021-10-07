@@ -25,11 +25,8 @@ public class MyIterator<E> implements Iterator<E>{
 
     @Override
     public void remove() {
-        try {
-            list.remove(node);
-        } catch (InvalidPositionException e) {
-            e.printStackTrace();
-        }
+        list.remove(node);
+        this.node = node.getNext();
     }
 
 }
