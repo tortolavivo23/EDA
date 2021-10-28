@@ -145,6 +145,13 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 
     @Override
     public Position<E> insertLeft(Position<E> p, E e) {
+        if (hasLeft(p)){
+            try {
+                throw new Exception();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
         BTNode<E> parent = checkPosition(p);
         BTNode<E> node = new BTNode<>(e, parent, null, null);
         parent.setLeft(node);
@@ -153,6 +160,13 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 
     @Override
     public Position<E> insertRight(Position<E> p, E e) {
+        if(hasLeft(p)){
+            try {
+                throw new Exception();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
         BTNode<E> parent = checkPosition(p);
         BTNode<E> node = new BTNode<>(e, parent, null, null);
         parent.setRight(node);
