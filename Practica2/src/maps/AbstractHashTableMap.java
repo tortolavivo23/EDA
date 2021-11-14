@@ -316,9 +316,6 @@ abstract public class AbstractHashTableMap<K, V> implements Map<K, V> {
         }
         else{
             n++;
-            if(bucket[index.index]!=null){
-                System.out.println("call");
-            }
         }
         bucket[index.index] = new HashEntry<>(key, value);
         double rat = (double) n / (double) capacity;
