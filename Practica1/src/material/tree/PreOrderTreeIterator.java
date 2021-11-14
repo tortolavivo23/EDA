@@ -18,7 +18,7 @@ public class PreOrderTreeIterator<T> implements Iterator<Position<T>> {
 
     public PreOrderTreeIterator(Tree<T> tree) {
         this.tree = tree;
-        queue.add(tree.root());
+        if(!tree.isEmpty()) queue.add(tree.root());
     }
 
     public PreOrderTreeIterator(Tree<T> tree, Position<T> root) {

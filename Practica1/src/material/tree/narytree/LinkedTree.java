@@ -245,7 +245,7 @@ public class LinkedTree<E> implements NAryTree<E> {
 
     @Override
     public Iterator<Position<E>> iterator() {
-        return new PreOrderTreeIterator<>(this);
+        return new BreadthFirstTreeIterator<E>(this);
     }
 
     public int size(){

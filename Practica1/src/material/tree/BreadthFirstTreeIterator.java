@@ -24,6 +24,7 @@ public class BreadthFirstTreeIterator<T> implements Iterator<Position<T>> {
     }
     public BreadthFirstTreeIterator(Tree<T> tree) {
         this.tree=tree;
+        if(!tree.isEmpty())
         queue.add(tree.root());
     }
     
