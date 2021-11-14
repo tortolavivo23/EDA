@@ -1,9 +1,6 @@
 
 package practica1;
 
-import material.Position;
-import material.tree.narytree.LinkedTree;
-import material.tree.narytree.NAryTree;
 
 /**
  *
