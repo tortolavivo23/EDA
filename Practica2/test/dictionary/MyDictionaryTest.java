@@ -79,9 +79,9 @@ public class MyDictionaryTest {
         Entry<String, String> mayte = instance.insert("Mayte", "912127651");
         Entry<String, String> andres = instance.insert("Andres", "912127624");
         assertEquals(instance.size(), 3);
-        assertEquals(instance.find("jose").getValue(), "912127654");
+        assertEquals(instance.find("Jose").getValue(), "912127654");
         instance.remove(jose);
-        assertEquals(instance.find("jose"), null);
+        assertEquals(instance.find("Jose"), null);
         Entry<String, String> andres2 = instance.insert("Andres", "654321987");
         Iterable<Entry<String, String>> findAll = instance.findAll("Andres");
         for (Entry<String, String> entry : findAll) {

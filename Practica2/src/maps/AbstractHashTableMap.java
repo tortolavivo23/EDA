@@ -1,6 +1,7 @@
 package maps;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -189,7 +190,8 @@ abstract public class AbstractHashTableMap<K, V> implements Map<K, V> {
     protected int prime, capacity; // prime factor and capacity of bucket array
     protected long scale, shift; // the shift and scaling factors
     protected HashEntry<K, V>[] bucket;// bucket array
-    protected final Entry<K, V> AVAILABLE = new HashEntry<>(null, null);
+    protected final HashEntry<K, V> AVAILABLE = new HashEntry<>(null, null);
+    protected int colisiones = 0;
 
     /**
      * Creates a hash table with prime factor 109345121 and capacity 1000.
@@ -242,11 +244,44 @@ abstract public class AbstractHashTableMap<K, V> implements Map<K, V> {
     public boolean isEmpty() {
         return (n == 0);
     }
+
+    public int getColisiones(){
+        return colisiones;
+    }
     
     abstract protected int offset(int hashKey, int p);
 
     protected HashEntryIndex findEntry(K key) throws IllegalStateException {
-        throw new UnsupportedOperationException("Not yet implemented");
+        checkKey(key);
+        int p = 0;
+        int hashKey = hashValue(key);
+        int i = offset(hashKey, p)%capacity;
+        int i_aux = i;
+        boolean found = false;
+        boolean available = false;
+        while (!found&&bucket[i]!=null&&p<capacity){
+            if(bucket[i]==AVAILABLE){
+                i_aux=i;
+                available=true;
+            }
+            else if(bucket[i].getKey().equals(key)){
+                i_aux = i;
+                found = true;
+                colisiones--;
+            }
+            colisiones++;
+            p++;
+            i = offset(hashKey, p)%capacity;
+        }
+        if(!found&&!available){
+            i_aux = i;
+        }
+        if(p<capacity){
+            return new HashEntryIndex(i_aux, found);
+        }
+        else{
+            throw new IllegalStateException();
+        }
     }
 
     /**
@@ -257,7 +292,12 @@ abstract public class AbstractHashTableMap<K, V> implements Map<K, V> {
      */
     @Override
     public V get(K key) throws IllegalStateException {
-       throw new UnsupportedOperationException("Not yet implemented");
+        HashEntryIndex index = findEntry(key);
+        V out = null;
+        if(index.found){
+            out = bucket[index.index].getValue();
+        }
+        return out;
     }
 
     /**
@@ -269,7 +309,23 @@ abstract public class AbstractHashTableMap<K, V> implements Map<K, V> {
      */
     @Override
     public V put(K key, V value) throws IllegalStateException {
-       throw new UnsupportedOperationException("Not yet implemented");
+        HashEntryIndex index = findEntry(key);
+        V out = null;
+        if(index.found){
+            out = bucket[index.index].getValue();
+        }
+        else{
+            n++;
+            if(bucket[index.index]!=null){
+                System.out.println("call");
+            }
+        }
+        bucket[index.index] = new HashEntry<>(key, value);
+        double rat = (double) n / (double) capacity;
+        if(rat>=0.5){
+            rehash();
+        }
+        return out;
     }
 
     /**
@@ -280,7 +336,14 @@ abstract public class AbstractHashTableMap<K, V> implements Map<K, V> {
      */
     @Override
     public V remove(K key) throws IllegalStateException {
-        throw new UnsupportedOperationException("Not yet implemented");
+        HashEntryIndex index = findEntry(key);
+        V out = null;
+        if(index.found){
+            out = bucket[index.index].getValue();
+            bucket[index.index] = AVAILABLE;
+            n--;
+        }
+        return out;
     }
 
     @Override
@@ -350,18 +413,41 @@ abstract public class AbstractHashTableMap<K, V> implements Map<K, V> {
      * @return
      */
     protected int hashValue(K key) {
-        return (int) (Math.abs(key.hashCode() * scale + shift) % prime);
+        return (int) (Math.abs(key.hashCode() * scale + shift) % prime) %capacity;
     }
 
     /**
      * Doubles the size of the hash table and rehashes all the entries.
      */
     protected void rehash() {
-        
+        LinkedList<Entry<K, V>> entries = new LinkedList<>();
+        for(Entry<K, V> entry: entries()){
+            entries.addLast(entry);
+        }
+        this.n = 0;
+        this.prime = 109345121;
+        this.capacity = capacity*2;
+        this.bucket = (HashEntry<K, V>[]) new HashEntry[capacity]; // safe cast
+        Random rand = new Random();
+        this.scale = rand.nextInt(prime - 1) + 1;
+        this.shift = rand.nextInt(prime);
+        for(Entry<K, V> entry: entries){
+            put(entry.getKey(), entry.getValue());
+        }
     }
 
     protected void rehash(int newcap) {
-        
+        Iterable<Entry<K,V>> entries= entries();
+        this.n = 0;
+        this.prime = 109345121;
+        this.capacity = newcap;
+        this.bucket = (HashEntry<K, V>[]) new HashEntry[capacity]; // safe cast
+        Random rand = new Random();
+        this.scale = rand.nextInt(prime - 1) + 1;
+        this.shift = rand.nextInt(prime);
+        for(Entry<K, V> entry: entries){
+            put(entry.getKey(), entry.getValue());
+        }
     }
 
 }
