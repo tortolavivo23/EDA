@@ -133,7 +133,7 @@ public class LinkedTreeTest {
 	}
 
  @Test       
-        public void testRemove2() {
+ public void testRemove2() {
 		this.setTree();
 		this.tree.remove(this.tree.root());
 		assertEquals(this.tree.size(), 0);
