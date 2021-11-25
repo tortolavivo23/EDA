@@ -1,5 +1,6 @@
 package maps;
 
+import java.security.InvalidKeyException;
 import java.util.*;
 
 /**
@@ -69,7 +70,7 @@ public class HashTableMapSC<K, V> implements Map<K, V> {
         }
 
         private void goToNextElement() {
-            while(i<map.length && map[i]!=null){
+            while(i<map.length && map[i]==null){
                 i++;
             }
             if(i!=map.length){
@@ -83,6 +84,7 @@ public class HashTableMapSC<K, V> implements Map<K, V> {
                 return true;
             }
             else{
+                i++;
                 goToNextElement();
                 return i!=map.length;
             }
@@ -90,9 +92,6 @@ public class HashTableMapSC<K, V> implements Map<K, V> {
 
         @Override
         public Entry<T, U> next() {
-            if (!it.hasNext()){
-                goToNextElement();
-            }
             return it.next();
         }
 
@@ -175,7 +174,7 @@ public class HashTableMapSC<K, V> implements Map<K, V> {
         boolean prime = false;
         while(!prime){
             prime = true;
-            for(int i=1; i<= Math.sqrt(p) && prime; i++){
+            for(int i=2; i<= Math.sqrt(p) && prime; i++){
                 prime &= !(p%i==0);
             }
             p++;
@@ -233,6 +232,11 @@ public class HashTableMapSC<K, V> implements Map<K, V> {
      */
     @Override
     public V get(K key) throws IllegalStateException {
+        try {
+            checkKey(key);
+        } catch (InvalidKeyException e) {
+            throw new IllegalStateException(e.getCause());
+        }
         int n = hashValue(key);
         ArrayList<HashEntry<K,V>> list = null;
         try{
@@ -275,6 +279,11 @@ public class HashTableMapSC<K, V> implements Map<K, V> {
      */
     @Override
     public V put(K key, V value) throws IllegalStateException {
+        try {
+            checkKey(key);
+        } catch (InvalidKeyException e) {
+            throw new IllegalStateException(e.getCause());
+        }
         int n = hashValue(key);
         ArrayList<HashEntry<K,V>> list = null;
         try{
@@ -314,6 +323,11 @@ public class HashTableMapSC<K, V> implements Map<K, V> {
      */
     @Override
     public V remove(K key) throws IllegalStateException {
+        try {
+            checkKey(key);
+        } catch (InvalidKeyException e) {
+            throw new IllegalStateException();
+        }
         int n = hashValue(key);
         ArrayList<HashEntry<K,V>> list = null;
         try{
@@ -396,8 +410,10 @@ public class HashTableMapSC<K, V> implements Map<K, V> {
      *
      * @param k Key
      */
-    protected void checkKey(K k) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    protected void checkKey(K k) throws InvalidKeyException {
+        if(k==null){
+            throw new InvalidKeyException();
+        }
     }
 
     /**

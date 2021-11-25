@@ -440,9 +440,9 @@ public class ArrayBinaryTreeTest {
         Position<String> n3 = t.insertLeft(h, "3");
         Position<String> n5 = t.insertRight(h, "5");
         ArrayBinaryTree<String> t2 = (ArrayBinaryTree<String>) t.subTree(h);
-        assertEquals(t2.root(), h);
-        assertEquals(t2.left(t2.root()), n3);
-        assertEquals(t2.right(t2.root()), n5);
+        assertEquals(t2.root().getElement(), h.getElement());
+        assertEquals(t2.left(t2.root()).getElement(), n3.getElement());
+        assertEquals(t2.right(t2.root()).getElement(), n5.getElement());
         
     }
 }
