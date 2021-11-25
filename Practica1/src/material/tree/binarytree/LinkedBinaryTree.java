@@ -182,10 +182,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>{
 
     @Override
     public Position<E> addRoot(E e) {
-        if (root!=null) try {
-            throw new Exception();
-        } catch (Exception ex) {
-            throw new RuntimeException("Root already added");
+        if (root!=null) {
+            throw new RuntimeException("Root already exists");
         }
         root = new BTNode<>(e, null, null, null);
         return root;
